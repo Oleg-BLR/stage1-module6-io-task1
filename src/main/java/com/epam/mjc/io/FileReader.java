@@ -18,7 +18,7 @@ public class FileReader {
     public Profile getDataFromFile(File file) {
         String profileData = readProfileDataFromFile(file);
 
-        String formattedProfileData = profileData.replaceAll("\\s\\s", ",")
+        String formattedProfileData = profileData.replaceAll("\\n", ",")
                 .replaceAll("\\s", "");
 
         Map<String, String> parsedProfileData = parseProfileDataFromStringToMap(formattedProfileData);
