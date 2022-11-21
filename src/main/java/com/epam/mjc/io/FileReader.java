@@ -17,13 +17,15 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) {
         String profileData = readProfileDataFromFile(file);
+        if (profileData != null) {
+            String formattedProfileData = profileData.replaceAll("\\n", ",")
+                    .replaceAll("\\s", "");
 
-        String formattedProfileData = profileData.replaceAll("\\n", ",")
-                .replaceAll("\\s", "");
+            Map<String, String> parsedProfileData = parseProfileDataFromStringToMap(formattedProfileData);
 
-        Map<String, String> parsedProfileData = parseProfileDataFromStringToMap(formattedProfileData);
-
-        return mapDataToProfile(parsedProfileData);
+            return mapDataToProfile(parsedProfileData);
+        }
+        return null;
     }
 
     private String readProfileDataFromFile(File file) {
@@ -46,11 +48,9 @@ public class FileReader {
     }
 
     private Map<String, String> parseProfileDataFromStringToMap(String stringAsMap) {
-        Map<String, String> map = Arrays.stream(stringAsMap.split(","))
+        return Arrays.stream(stringAsMap.split(","))
                 .map(entry -> entry.split(":"))
                 .collect(Collectors.toMap(entry -> entry[0], entry -> entry[1]));
-
-        return map;
     }
 
     private Profile mapDataToProfile(Map<String, String> parsedData) {
